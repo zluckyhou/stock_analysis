@@ -30,6 +30,6 @@ jobs:
         
     - name: get real time stock info and print alert info
       run: 
-        python ./real_time_stock_info.py secrets.tushare_token
+        python ./real_time_stock_info.py ${{secrets.tushare_token}}
       env:
         tushare_token: ${{secrets.tushare_token}}
