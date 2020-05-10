@@ -9,12 +9,12 @@ import datetime
 import pandas as pd
 
 import tushare as ts
-
+import sys
 
 # In[26]:
 
 
-token = 'c0641675f20fa1b0c0787235e132a60a1242a89bdf953952773d71e5'
+token = sys.argv[1]
 
 pro = ts.pro_api(token)
 
