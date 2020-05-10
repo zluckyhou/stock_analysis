@@ -101,7 +101,7 @@ class stock_alert(object):
 wechatkey = sys.argv[2]
 
 
-# In[284]:
+# In[288]:
 
 
 def wechatMsg(msg,wechatkey):
@@ -110,7 +110,7 @@ def wechatMsg(msg,wechatkey):
     # key2 = env_dist.get('wechat_key2') # Shin
     # keys = [key1,key2]
     params = {'text':'股价4线提示','desp':f'{msg}'}
-    url = f'http://sc.ftqq.com/{key}.send'
+    url = f'http://sc.ftqq.com/{wechatkey}.send'
     requests.get(url,params = params)
 
 
