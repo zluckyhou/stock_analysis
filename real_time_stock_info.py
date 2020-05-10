@@ -10,17 +10,11 @@ import tushare as ts
 import sys
 
 
-# In[ ]:
-
-
-
-
-
 # In[282]:
 
 
-# tushare_token = sys.argv[1]
-tushare_token = 'c0641675f20fa1b0c0787235e132a60a1242a89bdf953952773d71e5'
+tushare_token = sys.argv[1]
+# tushare_token = 'c0641675f20fa1b0c0787235e132a60a1242a89bdf953952773d71e5'
 ts.set_token(tushare_token)
 
 pro = ts.pro_api(tushare_token)
@@ -99,18 +93,47 @@ class stock_alert(object):
         
 
 
-# ## 调用类
+# # 微信推送
 
-# In[274]:
+# In[283]:
+
+
+wechatkey = sys.argv[2]
+
+
+# In[284]:
+
+
+def wechatMsg(msg,wechatkey):
+    env_dist = os.environ
+    # key1 = env_dist.get('wechat_key1')  # John
+    # key2 = env_dist.get('wechat_key2') # Shin
+    # keys = [key1,key2]
+    params = {'text':'股价4线提示','desp':f'{msg}'}
+    url = f'http://sc.ftqq.com/{key}.send'
+    requests.get(url,params = params)
+
+
+# In[285]:
 
 
 mystocks = ['300136.SZ','300618.SZ','300496.SZ','603019.SH','603611.SH','600446.SH','603799.SH','300348.SZ','300377.SZ']
 
-
-# In[275]:
-
-
+msg_ls = []
 for stock in mystocks:
     mystock = stock_alert(stock)
-    print(mystock.print_info())
+    print_info = mystock.print_info()
+    msg_ls.append(print_info)
+
+
+# In[287]:
+
+
+msg = '\n'.join(msg_ls)
+
+
+# In[ ]:
+
+
+wechatMsg(msg,wechatkey)
 
