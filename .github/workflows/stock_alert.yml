@@ -31,6 +31,7 @@ jobs:
         
     - name: get real time stock info and print alert info
       run: 
-        python ./real_time_stock_info.py
+        python ./real_time_stock_info.py ${{secrets.tushare_token}} ${{secrets.wechat_key}}
       env:
-        tushare_token: ${{secrets.tushare_token}}
+        tushare_token: ${{secrets.tushare_token}} 
+        wechat_key: ${{secrets.wechat_key}}
