@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v1
     - name: Set up Python 3.8
       uses: actions/setup-python@v1
       with:
@@ -30,6 +30,6 @@ jobs:
         
     - name: get real time stock info and print alert info
       run: 
-        python ./real_time_stock_info.py ${{secrets.tushare_token}}
+        python ./real_time_stock_info.py  ${{secrets.tushare_token}}
       env:
         tushare_token: ${{secrets.tushare_token}}
