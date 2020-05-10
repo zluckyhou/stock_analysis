@@ -10,11 +10,18 @@ import tushare as ts
 import sys
 
 
-# In[281]:
+# In[ ]:
+
+
+
+
+
+# In[282]:
 
 
 # tushare_token = sys.argv[1]
 tushare_token = 'c0641675f20fa1b0c0787235e132a60a1242a89bdf953952773d71e5'
+ts.set_token(tushare_token)
 
 pro = ts.pro_api(tushare_token)
 
