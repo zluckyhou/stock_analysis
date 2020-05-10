@@ -23,7 +23,7 @@ pro = ts.pro_api(tushare_token)
 
 # ## 定义股票价格四线预警类
 
-# In[304]:
+# In[329]:
 
 
 class stock_alert(object):
@@ -81,11 +81,25 @@ class stock_alert(object):
         ma_info = data_60week.iloc[0].to_dict()
         ma_ls = [ma_info['ma21'],ma_info['ma60'],ma_info['ma21_week'],ma_info['ma60_week']]
         flag_ls = [float(real_info['price']) >= i for i in ma_ls]
-        mark_ls = ['red' if flag  else 'green' for flag in flag_ls] 
-        print_info = f'{real_info["time"]}|{real_info["name"]}({real_info["code"]})|{real_info["price"]}|处于{sum(flag_ls)}线上方|<font color={mark_ls[0]}>{ma_info["ma21"]:.2f}</font>|<font color={mark_ls[1]}>{ma_info["ma60"]:.2f}</font>|<font color={mark_ls[2]}>{ma_info["ma21_week"]:.2f}</font>|<font color={mark_ls[3]}>{ma_info["ma60_week"]:.2f}</font>'
-        #         print(print_info)
+#         mark_ls = ['upper' if flag  else 'down' for flag in flag_ls] 
+        mark_ls = ['最新价在此上方' if flag  else '最新价在此下方' for flag in flag_ls]
+        print_info = f'''
+        {real_info["time"]}: {real_info["name"]}({real_info["code"]}), 最新价{real_info["price"]}, 处于{sum(flag_ls)}线上方\n
+        - 21日线:{ma_info["ma21"]:.2f}, {mark_ls[0]}\n
+        - 60日线: {ma_info["ma60"]:.2f}, {mark_ls[1]}\n
+        - 21周线: {ma_info["ma21_week"]:.2f}, {mark_ls[2]}\n
+        - 60周线: {ma_info["ma60_week"]:.2f}, {mark_ls[3]}\n
+        '''
+
+#         print_info = f'{real_info["time"]}, {real_info["name"]}({real_info["code"]}), 最新价{real_info["price"]}, 处于{sum(flag_ls)}线上方\n\n21日线|60日线|21周线|60周线\n---|---|---|---\n{ma_info["ma21"]:.2f}|{ma_info["ma60"]:.2f}|{ma_info["ma21_week"]:.2f}|{ma_info["ma60_week"]:.2f}'
         return print_info
         
+
+
+# In[ ]:
+
+
+
 
 
 # # 微信推送
@@ -96,7 +110,7 @@ class stock_alert(object):
 wechatkey = sys.argv[2]
 
 
-# In[308]:
+# In[311]:
 
 
 def wechatMsg(msg,wechatkey):
@@ -104,12 +118,12 @@ def wechatMsg(msg,wechatkey):
     # key1 = env_dist.get('wechat_key1')  # John
     # key2 = env_dist.get('wechat_key2') # Shin
     # keys = [key1,key2]
-    params = {'text':'股价4线提示','desp':f'<font color=red>红色</font>表示处于最新价下方，<font color=green>绿色</font>表示处于最新价上方\n{msg}'}
+    params = {'text':'股价4线提示','desp':f'<font color=red>红色</font>表示处于最新价下方，<font color=green>绿色</font>表示处于最新价上方\n\n{msg}'}
     url = f'http://sc.ftqq.com/{wechatkey}.send'
     requests.get(url,params = params)
 
 
-# In[305]:
+# In[330]:
 
 
 mystocks = ['300136.SZ','300618.SZ','300496.SZ','603019.SH','603611.SH','600446.SH','603799.SH','300348.SZ','300377.SZ']
@@ -121,12 +135,12 @@ for stock in mystocks:
     msg_ls.append(print_info)
 
 
-# In[306]:
+# In[331]:
 
 
-header = '时间|名称|最新价|4线位置|21日线|60日线|21周线|60周线\n---|---|---|---|---|---|---|---'
+# header = '时间|名称|最新价|4线位置|21日线|60日线|21周线|60周线\n---|---|---|---|---|---|---|---'
 
-msg = header +'\n' + '\n'.join(msg_ls)
+msg = '\n\n'.join(msg_ls)
 
 
 # In[ ]:
