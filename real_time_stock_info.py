@@ -1,13 +1,14 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[276]:
+# In[289]:
 
 
 import datetime
 import pandas as pd
 import tushare as ts
 import sys
+import requests
 
 
 # In[282]:
