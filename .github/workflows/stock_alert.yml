@@ -28,6 +28,7 @@ jobs:
         pip install lxml
         pip install pandas
         pip install tushare
+        pip install requests
         
     - name: get real time stock info and print alert info
       run: 
