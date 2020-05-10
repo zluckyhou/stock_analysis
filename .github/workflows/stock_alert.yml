@@ -9,7 +9,7 @@ on:
   pull_request:
     branches: [ master ]
   schedule:
-    - cron: '0 23 * * *'
+    - cron: '0 1 * * 1-5'
   
 jobs:
   build:
@@ -28,6 +28,7 @@ jobs:
         pip install lxml
         pip install pandas
         pip install tushare
+        pip install requests
         
     - name: get real time stock info and print alert info
       run: 
