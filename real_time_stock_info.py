@@ -105,7 +105,7 @@ wechatkey = sys.argv[2]
 
 
 def wechatMsg(msg,wechatkey):
-    env_dist = os.environ
+#     env_dist = os.environ
     # key1 = env_dist.get('wechat_key1')  # John
     # key2 = env_dist.get('wechat_key2') # Shin
     # keys = [key1,key2]
