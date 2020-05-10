@@ -10,12 +10,12 @@ import tushare as ts
 import sys
 
 
-# In[26]:
+# In[280]:
 
 
-token = sys.argv[1]
+tushare_token = sys.argv[1]
 
-pro = ts.pro_api(token)
+pro = ts.pro_api(tushare_token)
 
 
 # ## 定义股票价格四线预警类
