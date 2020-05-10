@@ -23,7 +23,7 @@ pro = ts.pro_api(tushare_token)
 
 # ## 定义股票价格四线预警类
 
-# In[268]:
+# In[304]:
 
 
 class stock_alert(object):
@@ -81,15 +81,9 @@ class stock_alert(object):
         ma_info = data_60week.iloc[0].to_dict()
         ma_ls = [ma_info['ma21'],ma_info['ma60'],ma_info['ma21_week'],ma_info['ma60_week']]
         flag_ls = [float(real_info['price']) >= i for i in ma_ls]
-        mark_ls = ['最新价在此之上' if flag  else '最新价在此下方' for flag in flag_ls] 
-        print_info = f'''
-        {real_info["time"]}: {real_info["name"]}({real_info["code"]}), 最新价{real_info["price"]}, 处于{sum(flag_ls)}线上方
-        - 21日线:{ma_info["ma21"]:.2f}, {mark_ls[0]}
-        - 60日线: {ma_info["ma60"]:.2f}, {mark_ls[1]}
-        - 21周线: {ma_info["ma21_week"]:.2f}, {mark_ls[2]}
-        - 60周线: {ma_info["ma60_week"]:.2f}, {mark_ls[3]}
-        '''
-#         print(print_info)
+        mark_ls = ['red' if flag  else 'green' for flag in flag_ls] 
+        print_info = f'{real_info["time"]}|{real_info["name"]}({real_info["code"]})|{real_info["price"]}|处于{sum(flag_ls)}线上方|<font color={mark_ls[0]}>{ma_info["ma21"]:.2f}</font>|<font color={mark_ls[1]}>{ma_info["ma60"]:.2f}</font>|<font color={mark_ls[2]}>{ma_info["ma21_week"]:.2f}</font>|<font color={mark_ls[3]}>{ma_info["ma60_week"]:.2f}</font>'
+        #         print(print_info)
         return print_info
         
 
@@ -102,7 +96,7 @@ class stock_alert(object):
 wechatkey = sys.argv[2]
 
 
-# In[288]:
+# In[308]:
 
 
 def wechatMsg(msg,wechatkey):
@@ -110,12 +104,12 @@ def wechatMsg(msg,wechatkey):
     # key1 = env_dist.get('wechat_key1')  # John
     # key2 = env_dist.get('wechat_key2') # Shin
     # keys = [key1,key2]
-    params = {'text':'股价4线提示','desp':f'{msg}'}
+    params = {'text':'股价4线提示','desp':f'<font color=red>红色</font>表示处于最新价下方，<font color=green>绿色</font>表示处于最新价上方\n{msg}'}
     url = f'http://sc.ftqq.com/{wechatkey}.send'
     requests.get(url,params = params)
 
 
-# In[285]:
+# In[305]:
 
 
 mystocks = ['300136.SZ','300618.SZ','300496.SZ','603019.SH','603611.SH','600446.SH','603799.SH','300348.SZ','300377.SZ']
@@ -127,10 +121,12 @@ for stock in mystocks:
     msg_ls.append(print_info)
 
 
-# In[287]:
+# In[306]:
 
 
-msg = '\n'.join(msg_ls)
+header = '时间|名称|最新价|4线位置|21日线|60日线|21周线|60周线\n---|---|---|---|---|---|---|---'
+
+msg = header +'\n' + '\n'.join(msg_ls)
 
 
 # In[ ]:
